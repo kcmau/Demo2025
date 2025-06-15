@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RV Technology Free Demo Registration Form</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            width: 100%;
+            max-width: 500px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #333;
+            font-size: 2rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1rem;
+        }
+
+        .counter-display {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .counter-display.limit-reached {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+        }
+
+        .counter-text {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .counter-subtext {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .registered-number {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .registered-text {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        #regNumber {
+            font-size: 1.4rem;
+            font-weight: 700;
+            text-decoration: underline;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+            font-size: 1rem;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e1e5e9;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border: 2px solid #e1e5e9;
+            border-radius: 10px;
+            background: #f8f9fa;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .checkbox-item:hover {
+            border-color: #667eea;
+            background: white;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: auto;
+            margin-right: 12px;
+            transform: scale(1.2);
+            cursor: pointer;
+        }
+
+        .checkbox-item label {
+            margin: 0;
+            cursor: pointer;
+            font-weight: 500;
+            flex: 1;
+        }
+
+        .checkbox-item input[type="checkbox"]:checked + label {
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        .error-message {
+            color: #dc3545;
+            font-size: 0.875rem;
+            margin-top: 5px;
+            font-weight: 500;
+        }
+
+        .form-group input:focus,
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .submit-btn:hover {
+            background: linear-gradient(135deg, #218838, #1ba085);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(40, 167, 69, 0.3);
+        }
+
+        .submit-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .submit-btn:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        .message {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .submissions-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .submissions-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .submissions-link a:hover {
+            color: #764ba2;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 30px 20px;
+                margin: 10px;
+            }
+
+            .header h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>RV Technology Free Demo Registration Form</h1>
+            <p>Please fill out the form below to register</p>
+        </div>
+
+        <div class="counter-display" id="counterDisplay">
+            <div class="counter-text" id="counterText">Loading...</div>
+            <div class="counter-subtext" id="counterSubtext">Please wait...</div>
+        </div>
+
+        <div class="registered-number" id="registeredNumber" style="display: none;">
+            <div class="registered-text">Your Registration Number: <span id="regNumber"></span></div>
+        </div>
+
+        <form id="registrationForm">
+            <div class="form-group">
+                <label for="name">Full Name *</label>
+                <input type="text" id="name" name="name" required placeholder="Enter your full name" pattern="[A-Za-z\s]+" title="Please enter only letters and spaces">
+                <div class="error-message" id="nameError" style="display: none;">Please enter only letters and spaces</div>
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Phone Number *</label>
+                <input type="tel" id="phone" name="phone" required placeholder="Enter your phone number (8 digits)" pattern="[0-9]{8}" title="Please enter exactly 8 digits" maxlength="8">
+                <div class="error-message" id="phoneError" style="display: none;">Please enter exactly 8 digits</div>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email address (optional)" pattern=".*@.*" title="Email must contain @ symbol">
+                <div class="error-message" id="emailError" style="display: none;">Email must contain @ symbol</div>
+            </div>
+
+            <div class="form-group">
+                <label for="schoolName">School Name *</label>
+                <input type="text" id="schoolName" name="school_name" required placeholder="Enter your school name">
+            </div>
+
+            <div class="form-group">
+                <label>Choose Robot Type(s) *</label>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="cleaningRobot" name="robot_types" value="Cleaning Robot">
+                        <label for="cleaningRobot">Cleaning Robot</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="securityRobot" name="robot_types" value="Security Robot">
+                        <label for="securityRobot">Security Robot</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="deliveryRobot" name="robot_types" value="Delivery Robot">
+                        <label for="deliveryRobot">Delivery Robot</label>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn" id="submitBtn">
+                Submit Registration
+            </button>
+        </form>
+
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>Submitting your registration...</p>
+        </div>
+
+        <div class="message" id="message" style="display: none;"></div>
+
+        <div class="submissions-link">
+            <a href="#" onclick="viewSubmissions()">View All Submissions</a> |
+            <a href="#" onclick="downloadExcel()">Download Excel</a> |
+            <a href="#" onclick="resetCounter()">Reset Counter</a>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = '/api/form';
+        
+        // Load counter status on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadCounterStatus();
+            
+            // Add real-time validation for name field
+            const nameInput = document.getElementById('name');
+            const nameError = document.getElementById('nameError');
+            
+            nameInput.addEventListener('input', function() {
+                const namePattern = /^[A-Za-z\s]+$/;
+                if (this.value && !namePattern.test(this.value)) {
+                    nameError.style.display = 'block';
+                    this.setCustomValidity('Please enter only letters and spaces');
+                } else {
+                    nameError.style.display = 'none';
+                    this.setCustomValidity('');
+                }
+            });
+
+            // Add real-time validation for phone field
+            const phoneInput = document.getElementById('phone');
+            const phoneError = document.getElementById('phoneError');
+            
+            phoneInput.addEventListener('input', function() {
+                const phonePattern = /^[0-9]{8}$/;
+                if (this.value && !phonePattern.test(this.value)) {
+                    phoneError.style.display = 'block';
+                    this.setCustomValidity('Please enter exactly 8 digits');
+                } else {
+                    phoneError.style.display = 'none';
+                    this.setCustomValidity('');
+                }
+            });
+
+            // Add real-time validation for email field
+            const emailInput = document.getElementById('email');
+            const emailError = document.getElementById('emailError');
+            
+            emailInput.addEventListener('input', function() {
+                if (this.value && !this.value.includes('@')) {
+                    emailError.style.display = 'block';
+                    this.setCustomValidity('Email must contain @ symbol');
+                } else {
+                    emailError.style.display = 'none';
+                    this.setCustomValidity('');
+                }
+            });
+        });
+
+        async function loadCounterStatus() {
+            try {
+                const response = await fetch(`${API_BASE}/status`);
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                const data = await response.json();
+                updateCounterDisplay(data.counter);
+            } catch (error) {
+                console.error('Error loading counter status:', error);
+                const counterDisplay = document.getElementById('counterDisplay');
+                const counterText = document.getElementById('counterText');
+                const counterSubtext = document.getElementById('counterSubtext');
+                
+                counterDisplay.classList.add('limit-reached');
+                counterText.textContent = 'Error Loading Status';
+                counterSubtext.textContent = 'Please refresh the page or try again later';
+                showMessage('Error loading form status. Please refresh the page.', 'error');
+            }
+        }
+
+        function updateCounterDisplay(counter) {
+            const counterDisplay = document.getElementById('counterDisplay');
+            const counterText = document.getElementById('counterText');
+            const counterSubtext = document.getElementById('counterSubtext');
+            const submitBtn = document.getElementById('submitBtn');
+            const form = document.getElementById('registrationForm');
+
+            if (counter.is_limit_reached) {
+                counterDisplay.classList.add('limit-reached');
+                counterText.textContent = 'Submission Limit Reached!';
+                counterSubtext.textContent = 'No more registrations are being accepted';
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Registration Closed';
+                
+                // Disable all form inputs
+                const inputs = form.querySelectorAll('input, select');
+                inputs.forEach(input => input.disabled = true);
+            } else {
+                counterDisplay.classList.remove('limit-reached');
+                counterText.textContent = `${counter.submissions_remaining} Spots Remaining`;
+                counterSubtext.textContent = `${counter.count} of ${counter.max_submissions} registrations submitted`;
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Submit Registration';
+                
+                // Enable all form inputs
+                const inputs = form.querySelectorAll('input, select');
+                inputs.forEach(input => input.disabled = false);
+            }
+        }
+
+        // Handle form submission
+        document.getElementById('registrationForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('submitBtn');
+            const loading = document.getElementById('loading');
+            const form = document.getElementById('registrationForm');
+            
+            // Show loading state
+            submitBtn.style.display = 'none';
+            loading.style.display = 'block';
+            hideMessage();
+            hideRegisteredNumber();
+            
+            // Get form data
+            const formData = new FormData(form);
+            
+            // Get selected robot types
+            const selectedRobots = [];
+            const checkboxes = form.querySelectorAll('input[name="robot_types"]:checked');
+            checkboxes.forEach(checkbox => {
+                selectedRobots.push(checkbox.value);
+            });
+            
+            // Validate at least one robot type is selected
+            if (selectedRobots.length === 0) {
+                loading.style.display = 'none';
+                submitBtn.style.display = 'block';
+                showMessage('Please select at least one robot type.', 'error');
+                return;
+            }
+            
+            const data = {
+                name: formData.get('name'),
+                phone: formData.get('phone'),
+                email: formData.get('email') || '', // Optional field
+                school_name: formData.get('school_name'),
+                selected_robots: selectedRobots
+            };
+            
+            try {
+                const response = await fetch(`${API_BASE}/submit`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    showMessage(result.message, 'success');
+                    updateCounterDisplay(result.counter);
+                    showRegisteredNumber(result.submission.id);
+                    form.reset();
+                } else {
+                    showMessage(result.message, 'error');
+                    if (result.counter) {
+                        updateCounterDisplay(result.counter);
+                    }
+                }
+            } catch (error) {
+                console.error('Error submitting form:', error);
+                showMessage('Error submitting form. Please try again.', 'error');
+            } finally {
+                // Hide loading state
+                loading.style.display = 'none';
+                submitBtn.style.display = 'block';
+            }
+        });
+
+        function showMessage(text, type) {
+            const message = document.getElementById('message');
+            message.textContent = text;
+            message.className = `message ${type}`;
+            message.style.display = 'block';
+            
+            // Auto-hide success messages after 5 seconds
+            if (type === 'success') {
+                setTimeout(() => {
+                    hideMessage();
+                }, 5000);
+            }
+        }
+
+        function hideMessage() {
+            const message = document.getElementById('message');
+            message.style.display = 'none';
+        }
+
+        function showRegisteredNumber(registrationId) {
+            const registeredNumber = document.getElementById('registeredNumber');
+            const regNumber = document.getElementById('regNumber');
+            regNumber.textContent = `REG-${String(registrationId).padStart(4, '0')}`;
+            registeredNumber.style.display = 'block';
+        }
+
+        function hideRegisteredNumber() {
+            const registeredNumber = document.getElementById('registeredNumber');
+            registeredNumber.style.display = 'none';
+        }
+
+        async function viewSubmissions() {
+            try {
+                const response = await fetch(`${API_BASE}/submissions`);
+                const data = await response.json();
+                
+                let submissionsHtml = '<h3>All Submissions:</h3><ul>';
+                data.submissions.forEach(submission => {
+                    submissionsHtml += `<li><strong>${submission.name}</strong> from ${submission.school_name} - ${submission.selected_option} (${submission.submitted_at})</li>`;
+                });
+                submissionsHtml += '</ul>';
+                
+                const newWindow = window.open('', '_blank');
+                newWindow.document.write(`
+                    <html>
+                        <head><title>Form Submissions</title></head>
+                        <body style="font-family: Arial, sans-serif; padding: 20px;">
+                            ${submissionsHtml}
+                            <p><strong>Total Submissions:</strong> ${data.counter.count} / ${data.counter.max_submissions}</p>
+                        </body>
+                    </html>
+                `);
+            } catch (error) {
+                showMessage('Error loading submissions', 'error');
+            }
+        }
+
+        async function downloadExcel() {
+            try {
+                const response = await fetch(`${API_BASE}/download`);
+                if (response.ok) {
+                    const blob = await response.blob();
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'form_submissions.xlsx';
+                    document.body.appendChild(a);
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                    document.body.removeChild(a);
+                    showMessage('Excel file downloaded successfully!', 'success');
+                } else {
+                    showMessage('No submissions to download', 'error');
+                }
+            } catch (error) {
+                showMessage('Error downloading Excel file', 'error');
+            }
+        }
+
+         async function resetCounter() {
+            // Prompt for password
+            const password = prompt('Enter password to reset counter:');
+            if (!password) {
+                return; // User cancelled
+            }
+            
+            if (password !== '25485650') {
+                alert('Incorrect password!');
+                return;
+            }
+            
+            if (!confirm('Are you sure you want to reset the counter? This will set the submission count back to 0.')) {
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${API_BASE}/reset`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ password: password })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    showMessage(result.message, 'success');
+                    updateCounterDisplay(result.counter);
+                    hideRegisteredNumber();
+                } else {
+                    showMessage(result.message, 'error');
+                }
+            } catch (error) {
+                console.error('Error resetting counter:', error);
+                showMessage('Error resetting counter. Please try again.', 'error');
+            }
+        }
+    </script>
+</body>
+</html>
+
